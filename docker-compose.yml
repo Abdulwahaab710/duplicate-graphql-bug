@@ -1,0 +1,27 @@
+version: "3"
+
+volumes:
+  db-data:
+    external: false
+  redis-data:
+    external: false
+
+services:
+  db:
+    environment:
+      POSTGRES_USER: duplicate-graphql-bug
+      POSTGRES_PASSWORD: supersecurepassword
+    image: postgres:9.5
+    volumes:
+      - db-data:/user/local/pgsql/data
+  web:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    tty: true
