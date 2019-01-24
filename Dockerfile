@@ -13,4 +13,4 @@ COPY Gemfile* ./
 COPY . .
 RUN bundle install
 
-CMD bundle exec puma -C config/puma.rb
+CMD rake assets:precompile && bundle exec puma -C config/puma.rb
